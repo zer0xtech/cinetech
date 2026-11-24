@@ -40,4 +40,14 @@ class MovieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findAllWithCategory(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->innerJoin('m.category', 'c')
+            ->addSelect('c')
+            ->orderBy('m.id', 'DESC')
+            ->getQuery()
+            ->getResult(); 
+    }
 }

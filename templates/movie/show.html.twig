@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ movie.title }} ({{ movie.releaseYear }}) - Détails{% endblock %}
+{% block title %}{{ movie.titre }} ({{ movie.dateSortie|date('Y')}}) - Détails{% endblock %}
 
 {% block body %}
 <div class="max-w-4xl mx-auto my-12 px-4">
@@ -8,16 +8,16 @@
         {# Partie droite : Informations détaillées #}
         <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-between bg-zinc-900">
             <div>
-                <h1 class="text-3xl md:text-4xl font-bold mb-3">{{ movie.title }}</h1>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">{{ movie.titre }}</h1>
                 
                 <div class="flex flex-wrap items-center gap-3 mb-8 text-sm text-zinc-400">
                     <span class="bg-amber-400 text-black font-extrabold px-2.5 py-1 rounded-md inline-flex items-center gap-1">
-                        ★ {{ movie.rating }}/5
+                        ★ {{ movie.notePresse }}/5
                     </span>
                     <span>•</span>
-                    <span>{{ movie.category }}</span>
+                    <span>{{ movie.genre.name }}</span>
                     <span>•</span>
-                    <span>Année : {{ movie.releaseYear }}</span>
+                    <span>Année : {{ movie.dateSortie|date('Y') }}</span>
                 </div>
 
                 <div>

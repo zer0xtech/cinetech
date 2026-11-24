@@ -27,12 +27,12 @@
             {% for movie in movies %}
                 <tr>
                     <td class="px-2 py-2"> {{ movie.id }}</td>
-                    <td class="px-4 py-2"> {{ movie.title }} <a href="{{ path('nom_movie_show', {'id': movie.id}) }}">📁</a></td>
-                    <td class="px-4 py-2"> {{ movie.category|upper }}</td>
-                    <td class="px-4 py-2"> {{ movie.releaseYear }}</td>
-                    <td class="px-4 py-2"> {{ movie.rating }}</td>
-                    <td class="px-4 py-2"> {{ movie.synopsis }}</td>
-                    {% if movie.rating >= 4 %}
+                    <td class="px-4 py-2"> {{ movie.titre }} <a href="{{ path('nom_movie_show', {'id': movie.id}) }}">📁</a></td>
+                    <td class="px-4 py-2"> {{ movie.genre.name|upper }}</td>
+                    <td class="px-4 py-2"> {{ movie.dateSortie|date('Y')}}</td>
+                    <td class="px-4 py-2"> {{ movie.notePresse}}</td>
+                    <td class="px-4 py-2"> {{ movie.synopsis|slice(0, 100) ~ '...'}}</td>
+                    {% if movie.notePresse >= 4 %}
                         <td class="px-4 py-2">⭐</td>
                     {% endif %}
                 </tr>

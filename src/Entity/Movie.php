@@ -35,6 +35,10 @@ class Movie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
+    #[ORM\ManyToOne(inversedBy: 'movies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $genre = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +124,18 @@ class Movie
     public function setSlug(?string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getGenre(): ?Category
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Category $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }
