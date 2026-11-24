@@ -5,7 +5,7 @@
         <div class="flex flex-wrap items-center justify-between min-h-16">
             
             <a href="{{ path('app_home') }}" class="text-xl font-bold text-indigo-600">
-                MonSite
+                Cinetech
             </a>
 
             <input type="checkbox" id="menu-toggle" class="peer hidden">
@@ -26,14 +26,29 @@
                    class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
                     Catalogue
                 </a>
-                <a href="{{ path('app_movie_new') }}" 
-                   class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
-                    Ajouter un film
+                <a href="{{ path('app_category_index') }}" class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
+                    Catégories
                 </a>
-                <a href="{{ path('app_category_index') }}" 
-                   class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
-                    Gérer les catégories
-                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_movie_new') }}" class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
+                        Ajouter un film
+                    </a>
+                {% endif %}
+                {% if app.user %}
+                    <span class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}"> 
+                        Connecté : <strong>{{ app.user.userIdentifier }}</strong>
+                    </span>
+                    <a href="{{ path('app_logout') }}"class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
+                        Déconnexion
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
+                        Connexion
+                    </a>
+                    <a href="{{ path('app_register') }}"class="block sm:inline-block px-3 py-2 rounded-md sm:rounded-none text-base sm:text-sm font-medium transition-colors {{ current_route == 'app_contact' ? 'bg-indigo-50 sm:bg-transparent text-indigo-600 sm:border-b-2 sm:border-indigo-600' : 'text-gray-600 hover:bg-gray-50 sm:hover:bg-transparent hover:text-gray-900' }}">
+                        Inscription
+                    </a>
+                {% endif %}
             </div>
 
         </div>

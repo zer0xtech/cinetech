@@ -1,16 +1,18 @@
 # Catalogue de Films - Projet Symfony
 
-Application web développée avec Symfony permettant de gérer, créer, modifier et consulter un catalogue de films classés par catégories.
+Application web développée avec Symfony permettant de gérer, créer, modifier et consulter un catalogue de films classés par catégories, avec authentification et contrôle d'accès par rôles.
 
 ## Fonctionnalités
 
 - Affichage de la liste complète des films enregistrés en base de données (ID, titre, catégorie, année de sortie, note de presse, extrait du synopsis et indicateur de favori).
 - Consultation de la fiche détaillée d'un film (`/catalogue/{id}`).
-- Ajout d'un nouveau film via un formulaire complet (`/catalogue/nouveau`).
-- Modification d'un film existant via un formulaire pré-rempli (`/catalogue/{id}/modifier`).
+- Ajout et modification d'un film via un formulaire complet (`/catalogue/nouveau`, `/catalogue/{id}/modifier`).
+- Gestion complète (CRUD) des catégories (`/category`).
 - Validation des données côté serveur sur l'entité `Movie` (titre obligatoire entre 2 et 255 caractères, durée strictement positive, date de sortie obligatoire, note comprise entre 0 et 5, URL d'affiche valide si renseignée).
-- Retour visuel utilisateur via des messages flash lors de la création ou de la modification d'un film.
-- Gestion des entités `Movie` et `Category` via Doctrine ORM (relation `ManyToOne`).
+- Retour visuel utilisateur via des messages flash lors de la création ou de la modification d'un élément.
+- Authentification complète (inscription `/register`, connexion `/login`, déconnexion `/logout`) et gestion des rôles (`ROLE_USER` et `ROLE_ADMIN`).
+- Génération de données de test réalistes via Doctrine Fixtures et Faker (5 catégories, 30 films et 2 comptes utilisateurs).
+- Gestion des entités `Movie`, `Category` et `Zerox` (Utilisateur) via Doctrine ORM.
 - Point de terminaison API REST basique retournant l'état du service (`/api/catalogue`).
 
 ## Prérequis
@@ -36,19 +38,28 @@ Application web développée avec Symfony permettant de gérer, créer, modifier
 3. Configurer les variables d'environnement :
    Copier le fichier `.env` vers `.env.local` et renseigner les paramètres de connexion à votre base de données (`DATABASE_URL`) :
    ```env
-   DATABASE_URL="mysql://utilisateur:mot_de_passe@127.0.0.1:3306/nom_de_la_base?serverVersion=8.0"
+   DATABASE_URL="mysql://utilisateur:mot_de_passe@127.0.0.1:3306/cinetech?serverVersion=8.0"
    ```
 
 4. Créer la base de données et exécuter les migrations :
    ```bash
-   php bin/console doctrine:database:create
-   php bin/console doctrine:migrations:migrate
+   symfony console doctrine:database:create
+   symfony console doctrine:migrations:migrate
    ```
 
-5. Charger les données de test (fixtures), si disponibles :
+5. Charger les données de test (fixtures) :
    ```bash
-   php bin/console doctrine:fixtures:load
+   symfony console doctrine:fixtures:load -n
    ```
+
+## Comptes de test
+
+Le chargement des fixtures crée automatiquement deux comptes utilisateurs :
+
+| Rôle | Email | Mot de passe |
+| :--- | :--- | :--- |
+| **Administrateur** (`ROLE_ADMIN`) | `admin@cinetech.fr` | `admin123` |
+| **Utilisateur** (`ROLE_USER`) | `user@cinetech.fr` | `user123` |
 
 ## Utilisation
 
@@ -66,14 +77,17 @@ L'application est ensuite accessible aux adresses suivantes :
 - Ajouter un film : `http://127.0.0.1:8000/catalogue/nouveau`
 - Détail d'un film : `http://127.0.0.1:8000/catalogue/{id}`
 - Modifier un film : `http://127.0.0.1:8000/catalogue/{id}/modifier`
+- Gestion des catégories : `http://127.0.0.1:8000/category`
+- Inscription / Connexion : `http://127.0.0.1:8000/register` et `http://127.0.0.1:8000/login`
 - Statut API : `http://127.0.0.1:8000/api/catalogue`
 
 ## Structure du projet
 
-- `src/Controller/MovieController.php` : Gestion des routes du catalogue, de l'affichage détaillé, de la création, de l'édition et de l'API.
-- `src/Entity/Movie.php` : Entité représentant un film (titre, synopsis, durée, date de sortie, note presse, affiche, slug, catégorie) et ses contraintes de validation (`Assert`).
-- `src/Entity/Category.php` : Entité représentant une catégorie de films.
-- `src/Form/MovieType.php` : Définition du formulaire réutilisé pour l'ajout et la modification d'un film.
+- `src/Controller/` : Contrôleurs de l'application (`MovieController.php`, `CategoryController.php`, `SecurityController.php`, `RegistrationController.php`).
+- `src/Entity/` : Entités Doctrine (`Movie.php`, `Category.php`, `Zerox.php`) et contraintes de validation (`Assert`).
+- `src/Form/` : Définition des formulaires Symfony (`MovieType.php`, `CategoryType.php`, `RegistrationFormType.php`).
+- `src/DataFixtures/AppFixtures.php` : Génération des données de test (catégories, films et comptes utilisateurs).
 - `src/Repository/` : Classes d'accès aux données Doctrine.
-- `templates/movie/` : Vues Twig (`index.html.twig`, `show.html.twig`, `new.html.twig`, `edit.html.twig`).
+- `templates/` : Vues Twig (`movie/`, `category/`, `security/`, `registration/`, `_navbar.html.twig`).
+- `config/packages/` : Configuration de Symfony (`security.yaml`, `twig.yaml`).
 - `migrations/` : Fichiers de migration de la base de données.

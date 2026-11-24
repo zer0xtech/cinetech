@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .register-container {
+            max-width: 450px;
+            margin: 3rem auto;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-family: sans-serif;
+        }
+
+        .register-container h1 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        .register-container form > div {
+            margin-bottom: 1.1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Alignement spécifique pour la case à cocher agreeTerms */
+        .register-container form > div:has(input[type="checkbox"]) {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .register-container form > div:has(input[type="checkbox"]) label {
+            margin-bottom: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .register-container label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .register-container input[type="email"],
+        .register-container input[type="password"],
+        .register-container input[type="text"] {
+            padding: 0.65rem 0.85rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #f8fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .register-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .register-container input[type="checkbox"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: #2563eb;
+            cursor: pointer;
+        }
+
+        /* Messages d'erreurs globaux et par champ */
+        .register-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.35rem 0 0 0;
+            color: #dc2626;
+            font-size: 0.85rem;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+
+        .login-link {
+            margin-top: 1.25rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .login-link a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="register-container">
+        <h1>Inscription</h1>
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Mot de passe'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms, {
+                label: 'Accepter les conditions d\'utilisation'
+            }) }}
+
+            <button type="submit" class="btn-submit">S'inscrire</button>
+        {{ form_end(registrationForm) }}
+
+        <div class="login-link">
+            Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
+        </div>
+    </div>
+{% endblock %}

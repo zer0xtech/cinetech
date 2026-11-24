@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class MovieController extends AbstractController
 {
@@ -40,6 +42,7 @@ final class MovieController extends AbstractController
         return $this->render('movie/show.html.twig', ['movie' => $movie]);
     }
     
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/catalogue/nouveau', name: 'app_movie_new')]
     public function add_movie(Request $request, EntityManagerInterface $em): Response
     {
@@ -59,6 +62,7 @@ final class MovieController extends AbstractController
         return $this->render('movie/new.html.twig', ['form' => $form]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/catalogue/{id}/modifier', name: 'app_movie_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit_movie(Movie $movie, Request $request, EntityManagerInterface $em): Response
     {
@@ -72,6 +76,7 @@ final class MovieController extends AbstractController
         return $this->render('movie/edit.html.twig', ['form' => $form, 'movie' => $movie]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/catalogue/{id}/supprimer', name: 'app_movie_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete_movie(Movie $movie, Request $request, EntityManagerInterface $em): Response
     {
