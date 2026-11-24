@@ -32,7 +32,8 @@ class AppFixtures extends Fixture
             $movie->setTitre($faker->sentence(3));
             $movie->setSynopsis($faker->paragraph(3));
             $movie->setDateSortie($faker->dateTimeBetween('-40 years', 'now'));
-            $movie->setDurée($faker->numberBetween(85, 180));
+            $movie->setDuree($faker->numberBetween(85, 180));
+            $movie->setNotePresse($faker->numberBetween(0, 5));
             
             $randomCategory = $faker->randomElement($categories);
             $movie->setGenre($randomCategory);

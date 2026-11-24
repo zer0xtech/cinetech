@@ -23,6 +23,13 @@
         <h1 class="text-3xl font-bold underline text-green-600">
             {%  include 'partials/_navbar.html.twig' %}
         </h1>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 rounded {{ label == 'warning' ? 'bg-amber-100 text-amber900' : 'bg-emerald-100 text-emerald-900' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
     </body>
 </html>

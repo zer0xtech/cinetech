@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MovieRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,18 +16,23 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre est obligatoire.')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Minimum {{ limit }} caractères.')]
     private ?string $Titre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Synopsis = null;
 
     #[ORM\Column]
-    private ?int $Durée = null;
+    #[Assert\Positive(message: 'La durée doit etre supérieure à 0.')]
+    private ?int $Duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotNull(message: 'Date de sortie obligatoire.')]
     private ?\DateTime $dateSortie = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(min: 0, max: 5, notInRangeMessage: 'La note doit se situer entre {{ min }} et {{ max }}.')]
     private ?float $notePresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -68,14 +74,14 @@ class Movie
         return $this;
     }
 
-    public function getDurée(): ?int
+    public function getDuree(): ?int
     {
-        return $this->Durée;
+        return $this->Duree;
     }
 
-    public function setDurée(int $Durée): static
+    public function setDuree(int $Duree): static
     {
-        $this->Durée = $Durée;
+        $this->Duree = $Duree;
 
         return $this;
     }
@@ -84,6 +90,7 @@ class Movie
     {
         return $this->dateSortie;
     }
+
 
     public function setDateSortie(\DateTime $dateSortie): static
     {

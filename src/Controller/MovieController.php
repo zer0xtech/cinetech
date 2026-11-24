@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Form\MovieType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,9 +39,41 @@ final class MovieController extends AbstractController
     {
         return $this->render('movie/show.html.twig', ['movie' => $movie]);
     }
+    
+    #[Route('/catalogue/nouveau', name: 'app_movie_new')]
+    public function add_movie(Request $request, EntityManagerInterface $em): Response
+    {
+        $movie = new Movie();
+        $form = $this->createForm(MovieType::class, $movie);
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($movie);
+            $em->flush();
+
+            $this->addFlash('success', 'Le produit a bien été créé.');
+            return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('movie/new.html.twig', ['form' => $form]);
+    }
+
+    #[Route('/catalogue/{id}/modifier', name: 'app_movie_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function edit(Movie $movie, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(MovieType::class, $movie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Les modifications ont été enregistrées.');
+            return $this->redirectToRoute('nom_movie_show', ['id' => $movie->getId()], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('movie/edit.html.twig', ['form' => $form, 'movie' => $movie]);
+    }
 
     #[Route('/api/catalogue', name: 'api_movie_list')]
-    public function api_data( ): JsonResponse
+    public function api_data(): JsonResponse
     {
         return $this->json(['status' => 'online', 'version' => '1.0.0']);
     }
