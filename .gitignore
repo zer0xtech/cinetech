@@ -1,9 +1,11 @@
 
 ###> symfony/framework-bundle ###7
-/.env
+.env
 /migrations/
 /.env.local
 /.env.local.php
+/.env.dev
+/.env.test
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
@@ -20,3 +22,6 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+/compose.yaml
+/compose.override.yaml
