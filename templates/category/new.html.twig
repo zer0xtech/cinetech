@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle catégorie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .form-container {
+            max-width: 550px;
+            margin: 2rem auto;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-family: sans-serif;
+        }
+
+        .form-container h1 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        /* Champs générés par form_widget(form) dans _form.html.twig */
+        .form-container form > div > div {
+            margin-bottom: 1.1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .form-container input[type="text"],
+        .form-container select,
+        .form-container textarea {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #f8fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* Messages d'erreurs de validation Symfony */
+        .form-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.3rem 0 0 0;
+            color: #dc2626;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Bouton "Save" généré dans _form.html.twig */
+        .form-container form button,
+        .form-container form .btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .form-container form button:hover,
+        .form-container form .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .back-wrapper {
+            margin-top: 1.25rem;
+            text-align: center;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 0.55rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            background-color: #e2e8f0;
+            color: #334155;
+            transition: background-color 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #cbd5e1;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="form-container">
+        <h1>Créer une catégorie</h1>
+
+        {{ include('category/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+        <div class="back-wrapper">
+            <a href="{{ path('app_category_index') }}" class="btn-back">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

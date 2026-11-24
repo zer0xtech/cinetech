@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la catégorie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .form-container {
+            max-width: 550px;
+            margin: 2rem auto;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-family: sans-serif;
+        }
+
+        .form-container h1 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        /* Champs générés par form_widget(form) dans _form.html.twig */
+        .form-container > form > div > div {
+            margin-bottom: 1.1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .form-container input[type="text"],
+        .form-container select,
+        .form-container textarea {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #f8fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #d97706;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Messages d'erreurs de validation Symfony */
+        .form-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.3rem 0 0 0;
+            color: #dc2626;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Bouton "Mettre à jour" généré dans _form.html.twig */
+        .form-container > form button,
+        .form-container > form .btn {
+            width: 100%;
+            background-color: #d97706;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .form-container > form button:hover,
+        .form-container > form .btn:hover {
+            background-color: #b45309;
+        }
+
+        .actions-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            background-color: #e2e8f0;
+            color: #334155;
+            transition: background-color 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #cbd5e1;
+        }
+
+        /* Bouton inclus dans _delete_form.html.twig */
+        .actions-bar form {
+            margin: 0;
+        }
+
+        .actions-bar form button,
+        .actions-bar form .btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background-color: #dc2626;
+            color: #ffffff;
+            transition: background-color 0.2s;
+        }
+
+        .actions-bar form button:hover,
+        .actions-bar form .btn:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="form-container">
+        <h1>Modifier la catégorie</h1>
+
+        {{ include('category/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        <div class="actions-bar">
+            <a href="{{ path('app_category_index') }}" class="btn-back">Retour à la liste</a>
+            {{ include('category/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

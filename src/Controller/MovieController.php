@@ -60,7 +60,7 @@ final class MovieController extends AbstractController
     }
 
     #[Route('/catalogue/{id}/modifier', name: 'app_movie_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function edit(Movie $movie, Request $request, EntityManagerInterface $em): Response
+    public function edit_movie(Movie $movie, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
@@ -70,6 +70,20 @@ final class MovieController extends AbstractController
             return $this->redirectToRoute('nom_movie_show', ['id' => $movie->getId()], Response::HTTP_SEE_OTHER);
         }
         return $this->render('movie/edit.html.twig', ['form' => $form, 'movie' => $movie]);
+    }
+
+    #[Route('/catalogue/{id}/supprimer', name: 'app_movie_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function delete_movie(Movie $movie, Request $request, EntityManagerInterface $em): Response
+    {
+        $token = $request->getPayload()->getString('_token');
+
+        if ($this->isCsrfTokenValid('delete' . $movie->getId(), $token)) {
+            $em->remove($movie);
+            $em->flush();
+            $this->addFlash('warning', 'Film supprimé.');
+        }
+        return $this->redirectToRoute('app_movie_index', [],
+    Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/api/catalogue', name: 'api_movie_list')]

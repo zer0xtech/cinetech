@@ -44,6 +44,17 @@
             </div>
 
             <div class="mt-8 pt-6 border-t border-zinc-800">
+                <form method="post" 
+                    action="{{ path('app_movie_delete', {id: movie.id}) }}" 
+                    onsubmit="return confirm('Supprimer définitivement ce film ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ movie.id) }}">
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-zinc-800">
                 <a href="{{ path('app_movie_index') }}" 
                    class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-200">
                     <span>←</span>
