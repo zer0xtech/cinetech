@@ -1,11 +1,15 @@
 # Catalogue de Films - Projet Symfony
 
-Application web développée avec Symfony permettant de gérer et de consulter un catalogue de films classés par catégories.
+Application web développée avec Symfony permettant de gérer, créer, modifier et consulter un catalogue de films classés par catégories.
 
 ## Fonctionnalités
 
 - Affichage de la liste complète des films enregistrés en base de données (ID, titre, catégorie, année de sortie, note de presse, extrait du synopsis et indicateur de favori).
 - Consultation de la fiche détaillée d'un film (`/catalogue/{id}`).
+- Ajout d'un nouveau film via un formulaire complet (`/catalogue/nouveau`).
+- Modification d'un film existant via un formulaire pré-rempli (`/catalogue/{id}/modifier`).
+- Validation des données côté serveur sur l'entité `Movie` (titre obligatoire entre 2 et 255 caractères, durée strictement positive, date de sortie obligatoire, note comprise entre 0 et 5, URL d'affiche valide si renseignée).
+- Retour visuel utilisateur via des messages flash lors de la création ou de la modification d'un film.
 - Gestion des entités `Movie` et `Category` via Doctrine ORM (relation `ManyToOne`).
 - Point de terminaison API REST basique retournant l'état du service (`/api/catalogue`).
 
@@ -59,14 +63,17 @@ php -S 127.0.0.1:8000 -t public
 
 L'application est ensuite accessible aux adresses suivantes :
 - Catalogue des films : `http://127.0.0.1:8000/catalogue`
+- Ajouter un film : `http://127.0.0.1:8000/catalogue/nouveau`
 - Détail d'un film : `http://127.0.0.1:8000/catalogue/{id}`
+- Modifier un film : `http://127.0.0.1:8000/catalogue/{id}/modifier`
 - Statut API : `http://127.0.0.1:8000/api/catalogue`
 
 ## Structure du projet
 
-- `src/Controller/MovieController.php` : Gestion des routes du catalogue, de l'affichage détaillé et de l'API.
-- `src/Entity/Movie.php` : Entité représentant un film (titre, synopsis, date de sortie, note, affiche, slug, catégorie).
+- `src/Controller/MovieController.php` : Gestion des routes du catalogue, de l'affichage détaillé, de la création, de l'édition et de l'API.
+- `src/Entity/Movie.php` : Entité représentant un film (titre, synopsis, durée, date de sortie, note presse, affiche, slug, catégorie) et ses contraintes de validation (`Assert`).
 - `src/Entity/Category.php` : Entité représentant une catégorie de films.
+- `src/Form/MovieType.php` : Définition du formulaire réutilisé pour l'ajout et la modification d'un film.
 - `src/Repository/` : Classes d'accès aux données Doctrine.
-- `templates/movie/` : Vues Twig (`index.html.twig` et `show.html.twig`).
+- `templates/movie/` : Vues Twig (`index.html.twig`, `show.html.twig`, `new.html.twig`, `edit.html.twig`).
 - `migrations/` : Fichiers de migration de la base de données.
