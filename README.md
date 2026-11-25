@@ -1,6 +1,6 @@
 # Catalogue de Films - Projet Symfony
 
-Application web développée avec Symfony permettant de gérer, créer, modifier et consulter un catalogue de films classés par catégories, avec authentification et contrôle d'accès par rôles.
+Catalogue de films en Symfony. Application web de gestion de films par catégories, avec authentification et deux rôles (utilisateur, administrateur) développée avec le framework PHP Symfony, Doctrine ORM, Twig et MySQL.
 
 ## Fonctionnalités
 
